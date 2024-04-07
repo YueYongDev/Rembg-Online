@@ -19,7 +19,11 @@ from rembg.bg import remove
 
 
 def remove_bg(input_data, path):
-    result = remove(input_data)
+    result = remove(input_data,
+                    alpha_matting=True,
+                # alpha_matting_foreground_threshold=270,
+                # alpha_matting_background_threshold=20,
+                alpha_matting_erode_size=20,)
     img = Image.open(io.BytesIO(result)).convert('RGBA')
     if Path(path).suffix != '.png':
         img.LOAD_TRUNCATED_IMAGES = True
@@ -197,7 +201,7 @@ if __name__ == '__main__':
 
     load_dotenv()
 
-    MAX_FILES = 10
+    MAX_FILES = 100
     if os.getenv('MAX_FILES'):
         MAX_FILES = int(os.getenv('MAX_FILES'))
 
